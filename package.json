@@ -1,0 +1,28 @@
+{
+  "name": "vr-player-example",
+  "version": "0.1.0",
+  "description": "vr player example",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vfis release -wL -d output",
+    "publish": "vfis release production -d dist",
+    "start": "vfis server start -p 1088 --root output"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lpreterite/vr-player-example.git"
+  },
+  "author": "packy-tang <lpreterite@126.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lpreterite/vr-player-example/issues"
+  },
+  "homepage": "https://github.com/lpreterite/vr-player-example#readme",
+  "devDependencies": {
+    "vfis": "^1.1.0"
+  },
+  "dependencies": {
+    "normalize-css": "^2.3.1",
+    "requirejs": "^2.3.3"
+  }
+}
