@@ -3,7 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>VR player</title>
-    <script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
+    <script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script><!--ignore-->
+    <style>
+    	body{
+    		position: relative;
+    	}
+    	.btn{
+    		position: absolute;
+    		z-index: 999;
+    		bottom: 50px;
+    		left: 50%;
+    	}
+    </style>
 </head>
 <body>
     <a-scene>
@@ -14,9 +25,12 @@
 
       <a-videosphere src="#video" rotation="0 -135 0"></a-videosphere>
     </a-scene>
-    <!-- <script src="node_modules/requirejs/require.js"></script>
+    <div>
+    	<button class="btn" id="play">play</button>
+    </div>
+    <script src="node_modules/requirejs/require.js"></script>
     <script type="text/javascript">
     	require(['main']);
-    </script> -->
+    </script>
 </body>
 </html>
