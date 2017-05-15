@@ -3,15 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>VR player</title>
+    <script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
 </head>
 <body>
-    
-    <div id="play"></div>
+    <a-scene>
+      <a-assets>
+        <video id="video" src="//vr.jwplayer.com/content/AgqYcfAT/AgqYcfAT-8yQ1cYbs.mp4"
+               autoplay loop crossorigin></video>
+      </a-assets>
 
-    <script src="player/jwplayer.js"></script><!--ignore-->
-    <script src="node_modules/requirejs/require.js"></script>
-    <script>
-        require(['main']);
-    </script>
+      <a-videosphere src="#video" rotation="0 -135 0"></a-videosphere>
+    </a-scene>
+    <!-- <script src="node_modules/requirejs/require.js"></script>
+    <script type="text/javascript">
+    	require(['main']);
+    </script> -->
 </body>
 </html>
