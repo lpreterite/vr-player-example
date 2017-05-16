@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>VR player</title>
+    <style>
+      body{
+        position: relative;
+      }
+      #video{
+        width: 600px;
+        height: 480px;
+      }
+      .btn{
+        position: absolute;
+        z-index: 999;
+        bottom: 50px;
+        left: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <a-scene>
+      <a-assets>
+        <video id="video" src="//vr.jwplayer.com/content/AgqYcfAT/AgqYcfAT-8yQ1cYbs.mp4"
+               autoplay loop crossorigin></video>
+      </a-assets>
+    
+      <a-videosphere src="#video" rotation="0 -135 0"></a-videosphere>
+    </a-scene>
+    <div>
+      <button class="btn" id="play">play</button>
+    </div>
+
+    <script src="/build.js"></script>
+  </body>
+</html>
