@@ -64,6 +64,9 @@ function updateOrientation(){
 // var windowHalfY = window.innerHeight / 2; 
 var previousMouseEvent;
 function onMouseMove(event){
+
+	// event.screenX
+
 	var movementX = event.movementX || event.mozMovementX;
 	var movementY = event.movementY || event.mozMovementY;
 	if (movementX === undefined || movementY === undefined) {
@@ -71,10 +74,10 @@ function onMouseMove(event){
 		movementY = event.screenY - previousMouseEvent.screenY;
 	}
 
-    console.log(event.screenX, event.screenY);
+    console.log(movementX, movementY);
 
-    yawObject.rotation.y -= movementX * 0.001;
-    pitchObject.rotation.x -= movementY * 0.001;
+    yawObject.rotation.y -= movementX * 0.0025;
+    pitchObject.rotation.x -= movementY * 0.0025;
     pitchObject.rotation.x = Math.max(-PI_2, Math.min(PI_2, pitchObject.rotation.x));
 
 	//last
