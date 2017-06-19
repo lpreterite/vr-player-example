@@ -1,8 +1,11 @@
 require('aframe');
-require('./js/controls/OrbitControls');
+
+const THREE = window.AFRAME.THREE;
 
 const $play = document.querySelector('#play');
 const $video = document.querySelector('#video');
+const $scene = document.querySelector('a-scene');
+
 
 var pause = false;
 $play.addEventListener('click', function(){
@@ -15,30 +18,74 @@ $play.addEventListener('click', function(){
     }
 });
 
-const videosphere = document.querySelector('a-videosphere');
-const groupObj = videosphere.object3D;
+var PI_2 = Math.PI / 2;
+var radToDeg = THREE.Math.radToDeg;
 
-var mouseX = 0;
-var mouseY = 0;
+var pitchObject = new THREE.Object3D();
+var yawObject = new THREE.Object3D();
+yawObject.position.y = 10;
+yawObject.add(pitchObject);
 
-var windowHalfX = window.innerWidth / 2;
-var windowHalfY = window.innerHeight / 2;
+var previousRotationX,
+	previousRotationY;
+function calculateDeltaRotation(){
+    var currentRotationX = radToDeg(pitchObject.rotation.x);
+    var currentRotationY = radToDeg(yawObject.rotation.y);
+    var deltaRotation;
+    previousRotationX = previousRotationX || currentRotationX;
+    previousRotationY = previousRotationY || currentRotationY;
+    deltaRotation = {
+      x: currentRotationX - previousRotationX,
+      y: currentRotationY - previousRotationY
+    };
+    previousRotationX = currentRotationX;
+    previousRotationY = currentRotationY;
+    return deltaRotation;
+}
 
-var x = 0;
-var y = 0;
-var z = 0;
-// setInterval(function(){
-// 	y = (clientX / window.innerWidth) * 2 - 1,;
-// 	groupObj.rotation.set(x , y, z);
-// }, 500);
+function updateOrientation(){
+	if(!$scene.camera) return;
+	var el = $scene.camera.el;
+	var currentRotation,
+		deltaRotation,
+		rotation;
 
-// window.addEventListener('mousemove', function(e){
-// 	y = (e.clientX / window.innerWidth) * 2 - 1;
-// 	x = -(e.clientY / window.innerWidth) * 2 + 1;
-// 	console.log("x:%s,y:%s,z:%s", x, y, z);
-// 	groupObj.rotation.set(x , y, z);
-// });
-// console.log(groupObj);
+	currentRotation = el.getAttribute('rotation');
+	deltaRotation = calculateDeltaRotation();
+	rotation = {
+		x: currentRotation.x - deltaRotation.x,
+		y: currentRotation.y - deltaRotation.y,
+		z: currentRotation.z
+	};
+	el.setAttribute('rotation', rotation);
+}
 
-// const fff = new THREE.OrbitControls(groupObj);
-// console.log(fff);
+// var windowHalfX = window.innerWidth / 2; 
+// var windowHalfY = window.innerHeight / 2; 
+var previousMouseEvent;
+function onMouseMove(event){
+	var movementX = event.movementX || event.mozMovementX;
+	var movementY = event.movementY || event.mozMovementY;
+	if (movementX === undefined || movementY === undefined) {
+		movementX = event.screenX - previousMouseEvent.screenX;
+		movementY = event.screenY - previousMouseEvent.screenY;
+	}
+
+    console.log(event.screenX, event.screenY);
+
+    yawObject.rotation.y -= movementX * 0.001;
+    pitchObject.rotation.x -= movementY * 0.001;
+    pitchObject.rotation.x = Math.max(-PI_2, Math.min(PI_2, pitchObject.rotation.x));
+
+	//last
+	previousMouseEvent = event;
+}
+
+window.addEventListener('mousemove', function(e){
+	onMouseMove(e);
+	updateOrientation();
+});
+
+$scene.addEventListener('camera-set-active', function(evt){
+	console.log(evt.detail.cameraEl.object3D);
+});
